@@ -1,0 +1,6 @@
+# Ignore artifacts:
+dist
+# Ignore files:
+**/*.md
+**/*.html
+**/*.json

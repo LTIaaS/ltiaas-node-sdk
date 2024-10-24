@@ -1,0 +1,47 @@
+{
+  "name": "ltiaas",
+  "version": "0.0.1",
+  "description": "The official LTIAAS client library.",
+  "main": "dist/index.js",
+  "exports": {
+    ".": "./dist/index.js",
+    "./types": "./dist/types.index.js"
+  },
+  "types": "dist/index.d.ts",
+  "type": "commonjs",
+  "engineStrict": true,
+  "engines": {
+    "node": ">=18.12.1"
+  },
+  "scripts": {
+    "prepare": "husky",
+    "build:clean": "del-cli dist",
+    "build:compile": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
+    "check:format": "prettier . --write",
+    "check:lint": "eslint src/* tests/*",
+    "check:tests": "jest",
+    "test": "npm-run-all check:format check:lint check:tests",
+    "build": "npm-run-all build:clean build:compile"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
+  },
+  "author": "cvmcosta",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@types/jest": "^29.5.13",
+    "@types/node": "^22.7.5",
+    "del-cli": "^6.0.0",
+    "eslint": "^9.12.0",
+    "eslint-config-love": "^85.0.0",
+    "husky": "^9.1.6",
+    "jest": "^29.7.0",
+    "lint-staged": "^15.2.10",
+    "npm-run-all": "^4.1.5",
+    "prettier": "3.3.3",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "tsc-alias": "^1.8.10",
+    "typescript": "5.5.4"
+  }
+}

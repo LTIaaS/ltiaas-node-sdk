@@ -5,7 +5,10 @@
     "moduleResolution": "Node16",
     "baseUrl": "src",
     "paths": {
-      "@/*": ["*"]
+      "@/*": ["*"],
+      "@client/*": ["apiClient/*"],
+      "@resources/*": ["apiClient/resources/*"],
+      "@utils/*": ["utils/*"],
     },
     "resolveJsonModule": true,
     "declaration": true,

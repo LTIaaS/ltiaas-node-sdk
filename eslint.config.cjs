@@ -7,6 +7,7 @@ module.exports = [
   {
     rules: {
       '@typescript-eslint/consistent-type-definitions': 'off',
+      '@typescript-eslint/no-magic-numbers': 'off',
     },
   },
 ]

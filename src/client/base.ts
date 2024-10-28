@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-import { type HTTPConfig, type ClientOptions, ClientOptionsSchema } from '@client/types'
+import type { HTTPConfig, ClientOptions } from '@client/types'
+import { ClientOptionsSchema } from '@client/schemas'
 import { validate } from '@utils/validation'
 
 export class LTIAASClient {
@@ -22,6 +23,4 @@ export class LTIAASClient {
       ? `https://${domain}`
       : `https://${subdomain}.${LTIAASClient.LTIAAS_DOMAIN}`
   }
-
-  // public async getIdToken(): Promise<void> {}
 }

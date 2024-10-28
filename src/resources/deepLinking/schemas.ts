@@ -1,12 +1,5 @@
 import { z } from 'zod'
-
-export const ContentItemType = {
-  LTI_RESOURCE_LINK: 'ltiResourceLink',
-  LINK: 'link',
-  HTML_FRAGMENT: 'html',
-  FILE: 'file',
-  IMAGE: 'image',
-} as const
+import { ContentItemType } from '@resources/deepLinking/enums'
 
 const LTIResourceLinkContentItemSchema = z
   .object({
@@ -165,4 +158,3 @@ export const ContentItemSchema = z.union([
   ImageContentItemSchema,
   HTMLFragmentContentItemSchema,
 ])
-export type ContentItem = z.infer<typeof ContentItemSchema>

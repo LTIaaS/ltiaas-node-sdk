@@ -1,15 +1,5 @@
 import { z } from 'zod'
-
-export const LTIVersion = {
-  LTI_1_3: '1.3.0',
-  LTI_1_2: '1.2.0',
-  LTI_1_1: '1.1.1',
-} as const
-
-export const LTILaunchType = {
-  CORE: 'LtiResourceLinkRequest',
-  DEEP_LINKING: 'LtiDeepLinkingRequest',
-} as const
+import { LTILaunchType, LTIVersion } from '@resources/idtoken/enums'
 
 export const IDTokenSchema = z.object({
   ltiVersion: z.nativeEnum(LTIVersion),
@@ -88,9 +78,7 @@ export const IDTokenSchema = z.object({
     serviceKey: z.string().optional(),
   }),
 })
-export type IDToken = z.infer<typeof IDTokenSchema>
 
 export const RawIDTokenSchema = z.object({
   // TODO: Add the rest of the fields
 })
-export type RawIDToken = z.infer<typeof RawIDTokenSchema>

@@ -6,8 +6,8 @@
     "baseUrl": "src",
     "paths": {
       "@/*": ["*"],
-      "@client/*": ["apiClient/*"],
-      "@resources/*": ["apiClient/resources/*"],
+      "@client/*": ["client/*"],
+      "@resources/*": ["resources/*"],
       "@utils/*": ["utils/*"],
     },
     "resolveJsonModule": true,

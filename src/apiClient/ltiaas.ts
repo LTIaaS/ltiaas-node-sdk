@@ -1,9 +1,10 @@
 import axios from 'axios'
-import { type ClientOptions, ClientOptionsSchema } from '@client/types/clientOptions'
-import type { HTTPConfig } from '@/apiClient/types/httpConfig'
+
+import { type HTTPConfig, type ClientOptions, ClientOptionsSchema } from '@client/types'
 import { validate } from '@utils/validation'
 
 export class LTIAASClient {
+  private static readonly LTIAAS_DOMAIN = 'ltiaas.com'
   private readonly httpConfig: HTTPConfig
 
   constructor(options: ClientOptions) {
@@ -17,6 +18,10 @@ export class LTIAASClient {
   }
 
   private static buildBaseUrl(domain?: string, subdomain?: string): string {
-    return ''
+    return domain !== undefined
+      ? `https://${domain}`
+      : `https://${subdomain}.${LTIAASClient.LTIAAS_DOMAIN}`
   }
+
+  // public async getIdToken(): Promise<void> {}
 }

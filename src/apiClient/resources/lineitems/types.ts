@@ -1,0 +1,1 @@
+export type LineItem = unknown

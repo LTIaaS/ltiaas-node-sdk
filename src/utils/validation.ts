@@ -1,5 +1,5 @@
 import { ZodError, type ZodSchema } from 'zod'
-import { ValidationError } from '@/exceptions/validationError'
+import { ValidationError } from '@exceptions/validationError'
 
 export const validate = <Type>(schema: ZodSchema, value: unknown): Type => {
   try {

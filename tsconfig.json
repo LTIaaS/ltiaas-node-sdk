@@ -9,6 +9,7 @@
       "@client/*": ["client/*"],
       "@resources/*": ["resources/*"],
       "@utils/*": ["utils/*"],
+      "@exceptions/*": ["exceptions/*"],
     },
     "resolveJsonModule": true,
     "declaration": true,

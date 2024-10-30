@@ -9,6 +9,8 @@ module.exports = [
       '@typescript-eslint/consistent-type-definitions': 'off',
       '@typescript-eslint/no-magic-numbers': 'off',
       '@typescript-eslint/no-unnecessary-type-parameters': 'off',
+      '@typescript-eslint/class-methods-use-this': 'off',
+      curly: ['error', 'multi-line'],
     },
   },
 ]

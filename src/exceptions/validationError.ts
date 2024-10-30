@@ -3,14 +3,10 @@ import type { ZodError } from 'zod'
 type ErrorObject = { _errors: string[]; [key: string]: ErrorObject | string[] }
 type FlattenedErrors = Record<string, string[]>
 
-const flattenErrors = (
-  obj: ErrorObject,
-  parentKey = '',
-  result: FlattenedErrors = {},
-): FlattenedErrors => {
+const flattenErrors = (obj: ErrorObject, parentKey = '', result: FlattenedErrors = {}): FlattenedErrors => {
   for (const key in obj) {
     if (key === '_errors' && obj._errors.length > 0) {
-      result[parentKey] = obj._errors
+      result[parentKey] = Array.from(new Set(obj._errors))
       continue
     }
     const newKey = parentKey.length > 0 ? `${parentKey}__${key}` : key

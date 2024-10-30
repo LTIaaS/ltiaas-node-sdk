@@ -1,26 +1,23 @@
-import axios from 'axios'
-
-import type { HTTPConfig, ClientOptions } from '@client/types'
+import axios, { type AxiosInstance } from 'axios'
+import type { ClientOptions } from '@client/types'
 import { ClientOptionsSchema } from '@client/schemas'
 import { validate } from '@utils/validation'
 
-export class LTIAASClient {
-  private static readonly LTIAAS_DOMAIN = 'ltiaas.com'
-  private readonly httpConfig: HTTPConfig
+export class BaseLTIAASClient {
+  protected readonly bearerAuthorization: string
+  protected readonly session: AxiosInstance
 
   constructor(options: ClientOptions) {
-    options = validate<ClientOptions>(ClientOptionsSchema, options)
-    this.httpConfig = {
-      apiKey: options.apiKey,
-      client: axios.create({
-        baseURL: LTIAASClient.buildBaseUrl(options.domain, options.subdomain),
-      }),
-    }
+    options = this.validateOptions(options)
+    this.bearerAuthorization = this.buildBearerAuthorization(options.apiKey)
+    this.session = axios.create({ baseURL: `https://${options.domain}` })
   }
 
-  private static buildBaseUrl(domain?: string, subdomain?: string): string {
-    return domain !== undefined
-      ? `https://${domain}`
-      : `https://${subdomain}.${LTIAASClient.LTIAAS_DOMAIN}`
+  protected validateOptions(options: ClientOptions): ClientOptions {
+    return validate<ClientOptions>(ClientOptionsSchema, options)
+  }
+
+  private buildBearerAuthorization(apiKey: string): string {
+    return `Bearer ${apiKey}`
   }
 }

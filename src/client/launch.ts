@@ -20,25 +20,29 @@ export class LTIAASLaunch extends BaseLTIAASClient {
 
   constructor(options: LaunchClientOptions) {
     super(options)
-    if ('ltik' in options) {
-      this.sessionType = SessionType.LTIK
-      this.serviceAuthorization = this.buildLTIKAuthorization(options.apiKey, options.ltik)
-    } else {
-      this.sessionType = SessionType.SERVICE_KEY
-      this.serviceAuthorization = this.buildServiceKeyAuthorization(options.apiKey, options.serviceKey)
-    }
+    this.sessionType = this.determineSessionType(options)
+    this.serviceAuthorization = this.buildServiceAuthorization(options)
   }
 
   protected validateOptions(options: LaunchClientOptions): LaunchClientOptions {
     return validate<LaunchClientOptions>(LaunchClientOptionsSchema, options)
   }
 
-  private buildLTIKAuthorization(apiKey: string, ltik: string): string {
-    return `LTIK-AUTH-V2 ${apiKey}:${ltik}`
+  private determineSessionType(options: LaunchClientOptions): SessionType {
+    if ('ltik' in options) return SessionType.LTIK
+    if ('serviceKey' in options) return SessionType.SERVICE_KEY
+    return SessionType.API_KEY
   }
 
-  private buildServiceKeyAuthorization(apiKey: string, serviceKey: string): string {
-    return `SERVICE-AUTH-V1 ${apiKey}:${serviceKey}`
+  private buildServiceAuthorization(options: LaunchClientOptions): string {
+    switch (this.sessionType) {
+      case SessionType.LTIK:
+        return `LTIK-AUTH-V2 ${options.apiKey}:${options.ltik}`
+      case SessionType.SERVICE_KEY:
+        return `SERVICE-AUTH-V1 ${options.apiKey}:${options.serviceKey}`
+      case SessionType.API_KEY:
+        return `Bearer ${options.apiKey}`
+    }
   }
 
   private validateSessionType(requiredSession: SessionType): void {

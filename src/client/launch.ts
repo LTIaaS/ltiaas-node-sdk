@@ -1,5 +1,6 @@
 import type { LaunchClientOptions } from '@client/types'
 import type { IDToken, LTIVersionPartial, RawIDToken, RawOauthPayload } from '@resources/idtoken/types'
+import type { MembershipContainer } from '@resources/memberships/types'
 import { get } from '@utils/requests'
 import { validate } from '@utils/validation'
 import { SessionType } from '@client/enums'
@@ -13,6 +14,7 @@ import {
 } from '@resources/idtoken/schemas'
 import { InvalidSessionError } from '@exceptions/invalidSessionError'
 import { LTIVersion } from '@resources/idtoken/enums'
+import { MembershipContainerSchema } from '@/resources/memberships/schemas'
 
 export class LTIAASLaunch extends BaseLTIAASClient {
   protected readonly serviceAuthorization: string
@@ -45,9 +47,9 @@ export class LTIAASLaunch extends BaseLTIAASClient {
     }
   }
 
-  private validateSessionType(requiredSession: SessionType): void {
-    if (this.sessionType !== requiredSession) {
-      throw new InvalidSessionError(this.sessionType, requiredSession)
+  private validateSessionType(...allowedSessionTypes: SessionType[]): void {
+    if (!allowedSessionTypes.includes(this.sessionType)) {
+      throw new InvalidSessionError(this.sessionType, allowedSessionTypes)
     }
   }
 
@@ -63,5 +65,11 @@ export class LTIAASLaunch extends BaseLTIAASClient {
     const partial = validate<LTIVersionPartial>(LTIVersionPartialSchema, data)
     if (partial.ltiVersion === LTIVersion.LTI_1_3) return validate<RawIDToken>(RawIDTokenSchema, data)
     return validate<RawOauthPayload>(RawOauthPayloadSchema, data)
+  }
+
+  public async getMembershipts(): Promise<MembershipContainer> {
+    this.validateSessionType(SessionType.LTIK, SessionType.SERVICE_KEY)
+    const data = await get(this.session, this.serviceAuthorization, '/api/memberships')
+    return validate<MembershipContainer>(MembershipContainerSchema, data)
   }
 }

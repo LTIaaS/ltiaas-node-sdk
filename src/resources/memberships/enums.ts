@@ -6,8 +6,7 @@ export const LTIUserRole = {
   SYSTEM_SYS_ADMIN: 'http://purl.imsglobal.org/vocab/lis/v2/system/person#SysAdmin',
   SYSTEM_SYS_SUPPORT: 'http://purl.imsglobal.org/vocab/lis/v2/system/person#SysSupport',
   SYSTEM_USER: 'http://purl.imsglobal.org/vocab/lis/v2/system/person#User',
-  INSTITUTION_ADMINISTRATOR:
-    'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Administrator',
+  INSTITUTION_ADMINISTRATOR: 'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Administrator',
   INSTITUTION_FACULTY: 'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Faculty',
   INSTITUTION_GUEST: 'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Guest',
   INSTITUTION_NONE: 'http://purl.imsglobal.org/vocab/lis/v2/institution/person#None',
@@ -20,8 +19,7 @@ export const LTIUserRole = {
   INSTITUTION_MEMBER: 'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Member',
   INSTITUTION_MENTOR: 'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Mentor',
   INSTITUTION_OBSERVER: 'http://purl.imsglobal.org/vocab/lis/v2/institution/person#Observer',
-  INSTITUTION_PROSPECTIVE:
-    'http://purl.imsglobal.org/vocab/lis/v2/institution/person#ProspectiveStudent',
+  INSTITUTION_PROSPECTIVE: 'http://purl.imsglobal.org/vocab/lis/v2/institution/person#ProspectiveStudent',
   CONTEXT_ADMINISTRATOR: 'http://purl.imsglobal.org/vocab/lis/v2/membership#Administrator',
   CONTEXT_CONTENT_DEVELOPER: 'http://purl.imsglobal.org/vocab/lis/v2/membership#ContentDeveloper',
   CONTEXT_INSTRUCTOR: 'http://purl.imsglobal.org/vocab/lis/v2/membership#Instructor',
@@ -30,4 +28,9 @@ export const LTIUserRole = {
   CONTEXT_MANAGER: 'http://purl.imsglobal.org/vocab/lis/v2/membership#Manager',
   CONTEXT_MEMBER: 'http://purl.imsglobal.org/vocab/lis/v2/membership#Member',
   CONTEXT_OFFICER: 'http://purl.imsglobal.org/vocab/lis/v2/membership#Officer',
+} as const
+
+export const MembershipStatus = {
+  ACTIVE: 'Active',
+  INACTIVE: 'Inactive',
 } as const

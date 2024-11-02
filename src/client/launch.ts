@@ -4,6 +4,7 @@ import type { MembershipContainer, MembershipsFilter } from '@resources/membersh
 import type { LineItem, LineItemContainer, LineItemsFilter, PartialLineItem } from '@resources/lineitems/types'
 import type { PartialScore, ScoreContainer, ScoresFilter } from '@resources/scores/types'
 import type { RegistrationRequest, RegistrationOptions, RegistrationCompletion } from '@resources/registrations/types'
+import type { PlatformsFilter, PlatformContainer, Platform, PartialPlatform } from '@resources/platforms/types'
 import type {
   ContentItem,
   DeepLinkingFormComponents,
@@ -40,7 +41,13 @@ import {
   RegistrationCompletionSchema,
   RegistrationOptionsSchema,
   RegistrationRequestSchema,
-} from '@/resources/registrations/schemas'
+} from '@resources/registrations/schemas'
+import {
+  PartialPlatformSchema,
+  PlatformContainerSchema,
+  PlatformSchema,
+  PlatformsFilterSchema,
+} from '@resources/platforms/schemas'
 
 export class LTIAASLaunch extends BaseLTIAASClient {
   protected readonly serviceAuthorization: string
@@ -139,14 +146,14 @@ export class LTIAASLaunch extends BaseLTIAASClient {
     return validate<LineItem>(LineItemSchema, data)
   }
 
-  public async getLineItemById(id: string): Promise<LineItem> {
+  public async getLineItem(id: string): Promise<LineItem> {
     this.validateSessionType(SessionType.LTIK, SessionType.SERVICE_KEY)
     const lineItemPath = `/api/lineitems/${encodeURIComponent(id)}`
     const data = await this.requestHandler.get(this.serviceAuthorization, lineItemPath)
     return validate<LineItem>(LineItemSchema, data)
   }
 
-  public async updateLineItemById(id: string, lineItem: PartialLineItem): Promise<LineItem> {
+  public async updateLineItem(id: string, lineItem: PartialLineItem): Promise<LineItem> {
     this.validateSessionType(SessionType.LTIK, SessionType.SERVICE_KEY)
     validate<PartialLineItem>(PartialLineItemSchema, lineItem)
     const lineItemPath = `/api/lineitems/${encodeURIComponent(id)}`
@@ -154,7 +161,7 @@ export class LTIAASLaunch extends BaseLTIAASClient {
     return validate<LineItem>(LineItemSchema, data)
   }
 
-  public async deleteLineItemById(id: string): Promise<void> {
+  public async deleteLineItem(id: string): Promise<void> {
     this.validateSessionType(SessionType.LTIK, SessionType.SERVICE_KEY)
     const lineItemPath = `/api/lineitems/${encodeURIComponent(id)}`
     await this.requestHandler.delete(this.serviceAuthorization, lineItemPath)
@@ -175,7 +182,7 @@ export class LTIAASLaunch extends BaseLTIAASClient {
     await this.requestHandler.post(this.serviceAuthorization, scoresPath, score)
   }
 
-  public async getRegistrationRequestById(id: string): Promise<RegistrationRequest> {
+  public async getRegistrationRequest(id: string): Promise<RegistrationRequest> {
     const registrationPath = `/api/registrations/${id}`
     const data = await this.requestHandler.get(this.bearerAuthorization, registrationPath)
     return validate<RegistrationRequest>(RegistrationRequestSchema, data)
@@ -186,5 +193,45 @@ export class LTIAASLaunch extends BaseLTIAASClient {
     const registrationPath = `/api/registrations/${id}/complete`
     const data = await this.requestHandler.post(this.bearerAuthorization, registrationPath, options)
     return validate<RegistrationCompletion>(RegistrationCompletionSchema, data)
+  }
+
+  public async getPlatforms(filters: PlatformsFilter): Promise<PlatformContainer> {
+    validate<PlatformsFilter>(PlatformsFilterSchema, filters)
+    const data = await this.requestHandler.get(this.bearerAuthorization, '/api/platforms', filters)
+    return validate<PlatformContainer>(PlatformContainerSchema, data)
+  }
+
+  public async getPlatform(id: string): Promise<Platform> {
+    const platformPath = `/api/platforms/${id}`
+    const data = await this.requestHandler.get(this.bearerAuthorization, platformPath)
+    return validate<Platform>(PlatformSchema, data)
+  }
+
+  public async registerPlatform(platform: PartialPlatform): Promise<Platform> {
+    validate<PartialPlatform>(PartialPlatformSchema, platform)
+    const data = await this.requestHandler.post(this.bearerAuthorization, '/api/platforms', platform)
+    return validate<Platform>(PlatformSchema, data)
+  }
+
+  public async updatePlatform(id: string, platform: PartialPlatform): Promise<Platform> {
+    validate<PartialPlatform>(PartialPlatformSchema, platform)
+    const platformPath = `/api/platforms/${id}`
+    const data = await this.requestHandler.put(this.bearerAuthorization, platformPath, platform)
+    return validate<Platform>(PlatformSchema, data)
+  }
+
+  public async deletePlatform(id: string): Promise<void> {
+    const platformPath = `/api/platforms/${id}`
+    await this.requestHandler.delete(this.bearerAuthorization, platformPath)
+  }
+
+  public async activatePlatform(id: string): Promise<void> {
+    const platformPath = `/api/platforms/${id}/activate`
+    await this.requestHandler.post(this.bearerAuthorization, platformPath)
+  }
+
+  public async deactivatePlatform(id: string): Promise<void> {
+    const platformPath = `/api/platforms/${id}/deactivate`
+    await this.requestHandler.post(this.bearerAuthorization, platformPath)
   }
 }

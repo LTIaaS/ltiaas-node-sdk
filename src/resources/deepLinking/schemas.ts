@@ -158,3 +158,28 @@ export const ContentItemSchema = z.union([
   ImageContentItemSchema,
   HTMLFragmentContentItemSchema,
 ])
+
+export const ContentItemsSchema = z.array(ContentItemSchema)
+
+export const DeepLinkingOptionsSchema = z
+  .object({
+    message: z.string().optional(),
+    log: z.string().optional(),
+    errMessage: z.string().optional(),
+    errLog: z.string().optional(),
+  })
+  .refine(data => {
+    return !(
+      (data.message !== undefined || data.log !== undefined) &&
+      (data.errMessage !== undefined || data.errLog !== undefined)
+    )
+  }, 'Cannot send both success and error messages or logs.')
+
+export const DeepLinkingFormResponseSchema = z.object({
+  form: z.string(),
+})
+
+export const DeepLinkingFormComponentsSchema = z.object({
+  message: z.string(),
+  target: z.string(),
+})

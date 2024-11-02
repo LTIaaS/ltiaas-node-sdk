@@ -28,6 +28,23 @@ export const LTIUserRole = {
   CONTEXT_MANAGER: 'http://purl.imsglobal.org/vocab/lis/v2/membership#Manager',
   CONTEXT_MEMBER: 'http://purl.imsglobal.org/vocab/lis/v2/membership#Member',
   CONTEXT_OFFICER: 'http://purl.imsglobal.org/vocab/lis/v2/membership#Officer',
+  INSTRUCTOR: 'Instructor',
+  LEARNER: 'Learner',
+  MENTOR: 'Mentor',
+  MANAGER: 'Manager',
+  MEMBER: 'Member',
+  OFFICER: 'Officer',
+  ADMINISTRATOR: 'Administrator',
+  CONTENT_DEVELOPER: 'ContentDeveloper',
+  TEACHING_ASSISTANT: 'TeachingAssistant',
+  TA: 'TeachingAssistant',
+  STUDENT: 'Student',
+  OBSERVER: 'Observer',
+  NONE: 'None',
+  OTHER: 'Other',
+  GUEST: 'Guest',
+  ALUMNI: 'Alumni',
+  PROSPECTIVE_STUDENT: 'ProspectiveStudent',
 } as const
 
 export const MembershipStatus = {

@@ -25,3 +25,9 @@ export const MembershipContainerSchema = z.object({
   }),
   members: z.array(MembershipSchema),
 })
+
+export const MembershipsFilterSchema = z.object({
+  role: z.string().optional(),
+  limit: z.number().optional(),
+  url: z.string().url().optional(),
+})

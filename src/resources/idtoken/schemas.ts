@@ -5,7 +5,7 @@ export const LTIVersionPartialSchema = z.object({
   ltiVersion: z.nativeEnum(LTIVersion),
 })
 
-export const IDTokenSchema = LTIVersionPartialSchema.extend({
+export const IdTokenSchema = LTIVersionPartialSchema.extend({
   ltiVersion: z.string(),
   user: z.object({
     id: z.string(),
@@ -83,7 +83,7 @@ export const IDTokenSchema = LTIVersionPartialSchema.extend({
   }),
 })
 
-export const RawIDTokenSchema = LTIVersionPartialSchema.extend({
+export const RawIdTokenSchema = LTIVersionPartialSchema.extend({
   ltiVersion: z.literal(LTIVersion.LTI_1_3),
   iss: z.string(),
   sub: z.string(),

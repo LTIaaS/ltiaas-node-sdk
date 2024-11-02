@@ -24,6 +24,7 @@ export const MembershipContainerSchema = z.object({
     title: z.string().optional(),
   }),
   members: z.array(MembershipSchema),
+  next: z.string().optional(),
 })
 
 export const MembershipsFilterSchema = z.object({

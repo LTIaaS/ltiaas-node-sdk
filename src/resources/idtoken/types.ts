@@ -1,15 +1,15 @@
 import type { z } from 'zod'
 import type {
-  IDTokenSchema,
+  IdTokenSchema,
   LTIVersionPartialSchema,
-  RawIDTokenSchema,
+  RawIdTokenSchema,
   RawOauthPayloadSchema,
 } from '@resources/idtoken/schemas'
 
 export type LTIVersionPartial = z.infer<typeof LTIVersionPartialSchema>
 
-export type IDToken = z.infer<typeof IDTokenSchema>
+export type IdToken = z.infer<typeof IdTokenSchema>
 
-export type RawIDToken = z.infer<typeof RawIDTokenSchema>
+export type RawIdToken = z.infer<typeof RawIdTokenSchema>
 
 export type RawOauthPayload = z.infer<typeof RawOauthPayloadSchema>

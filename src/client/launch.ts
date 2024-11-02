@@ -1,7 +1,8 @@
 import type { LaunchClientOptions } from '@client/types'
-import type { IDToken, LTIVersionPartial, RawIDToken, RawOauthPayload } from '@resources/idtoken/types'
+import type { IdToken, LTIVersionPartial, RawIdToken, RawOauthPayload } from '@resources/idtoken/types'
 import type { MembershipContainer, MembershipsFilter } from '@resources/memberships/types'
 import type { LineItem, LineItemContainer, LineItemsFilter, PartialLineItem } from '@resources/lineitems/types'
+import type { PartialScore, ScoreContainer, ScoresFilter } from '@resources/scores/types'
 import type {
   ContentItem,
   DeepLinkingFormComponents,
@@ -13,9 +14,9 @@ import { SessionType } from '@client/enums'
 import { BaseLTIAASClient } from '@client/base'
 import { LaunchClientOptionsSchema } from '@client/schemas'
 import {
-  IDTokenSchema,
+  IdTokenSchema,
   LTIVersionPartialSchema,
-  RawIDTokenSchema,
+  RawIdTokenSchema,
   RawOauthPayloadSchema,
 } from '@resources/idtoken/schemas'
 import { InvalidSessionError } from '@exceptions/invalidSessionError'
@@ -33,6 +34,7 @@ import {
   LineItemsFilterSchema,
   PartialLineItemSchema,
 } from '@resources/lineitems/schemas'
+import { PartialScoreSchema, ScoreContainerSchema, ScoresFilterSchema } from '@resources/scores/schemas'
 
 export class LTIAASLaunch extends BaseLTIAASClient {
   protected readonly serviceAuthorization: string
@@ -71,17 +73,17 @@ export class LTIAASLaunch extends BaseLTIAASClient {
     }
   }
 
-  public async getIdToken(): Promise<IDToken> {
+  public async getIdToken(): Promise<IdToken> {
     this.validateSessionType(SessionType.LTIK)
     const data = await this.requestHandler.get(this.serviceAuthorization, '/api/idtoken')
-    return validate<IDToken>(IDTokenSchema, data)
+    return validate<IdToken>(IdTokenSchema, data)
   }
 
-  public async getRawIdToken(): Promise<RawIDToken | RawOauthPayload> {
+  public async getRawIdToken(): Promise<RawIdToken | RawOauthPayload> {
     this.validateSessionType(SessionType.LTIK)
     const data = await this.requestHandler.get(this.serviceAuthorization, '/api/idtoken', { raw: true })
     const partial = validate<LTIVersionPartial>(LTIVersionPartialSchema, data)
-    if (partial.ltiVersion === LTIVersion.LTI_1_3) return validate<RawIDToken>(RawIDTokenSchema, data)
+    if (partial.ltiVersion === LTIVersion.LTI_1_3) return validate<RawIdToken>(RawIdTokenSchema, data)
     return validate<RawOauthPayload>(RawOauthPayloadSchema, data)
   }
 
@@ -131,14 +133,14 @@ export class LTIAASLaunch extends BaseLTIAASClient {
     return validate<LineItem>(LineItemSchema, data)
   }
 
-  public async getLineItemByID(id: string): Promise<LineItem> {
+  public async getLineItemById(id: string): Promise<LineItem> {
     this.validateSessionType(SessionType.LTIK, SessionType.SERVICE_KEY)
     const lineItemPath = `/api/lineitems/${encodeURIComponent(id)}`
     const data = await this.requestHandler.get(this.serviceAuthorization, lineItemPath)
     return validate<LineItem>(LineItemSchema, data)
   }
 
-  public async updateLineItemByID(id: string, lineItem: PartialLineItem): Promise<LineItem> {
+  public async updateLineItemById(id: string, lineItem: PartialLineItem): Promise<LineItem> {
     this.validateSessionType(SessionType.LTIK, SessionType.SERVICE_KEY)
     validate<PartialLineItem>(PartialLineItemSchema, lineItem)
     const lineItemPath = `/api/lineitems/${encodeURIComponent(id)}`
@@ -146,9 +148,24 @@ export class LTIAASLaunch extends BaseLTIAASClient {
     return validate<LineItem>(LineItemSchema, data)
   }
 
-  public async deleteLineItemByID(id: string): Promise<void> {
+  public async deleteLineItemById(id: string): Promise<void> {
     this.validateSessionType(SessionType.LTIK, SessionType.SERVICE_KEY)
     const lineItemPath = `/api/lineitems/${encodeURIComponent(id)}`
     await this.requestHandler.delete(this.serviceAuthorization, lineItemPath)
+  }
+
+  public async getScores(lineItemId: string, filters?: ScoresFilter): Promise<ScoreContainer> {
+    this.validateSessionType(SessionType.LTIK, SessionType.SERVICE_KEY)
+    if (filters !== undefined) validate<ScoresFilter>(ScoresFilterSchema, filters)
+    const scoresPath = `/api/lineitems/${encodeURIComponent(lineItemId)}/scores`
+    const data = this.requestHandler.get(this.serviceAuthorization, scoresPath)
+    return validate<ScoreContainer>(ScoreContainerSchema, data)
+  }
+
+  public async submitScore(lineItemId: string, score: PartialScore): Promise<void> {
+    this.validateSessionType(SessionType.LTIK, SessionType.SERVICE_KEY)
+    validate<PartialScore>(PartialScoreSchema, score)
+    const scoresPath = `/api/lineitems/${encodeURIComponent(lineItemId)}/scores`
+    await this.requestHandler.post(this.serviceAuthorization, scoresPath, score)
   }
 }

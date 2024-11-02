@@ -3,6 +3,7 @@ import type { IdToken, LTIVersionPartial, RawIdToken, RawOauthPayload } from '@r
 import type { MembershipContainer, MembershipsFilter } from '@resources/memberships/types'
 import type { LineItem, LineItemContainer, LineItemsFilter, PartialLineItem } from '@resources/lineitems/types'
 import type { PartialScore, ScoreContainer, ScoresFilter } from '@resources/scores/types'
+import type { RegistrationRequest, RegistrationOptions, RegistrationCompletion } from '@resources/registrations/types'
 import type {
   ContentItem,
   DeepLinkingFormComponents,
@@ -35,6 +36,11 @@ import {
   PartialLineItemSchema,
 } from '@resources/lineitems/schemas'
 import { PartialScoreSchema, ScoreContainerSchema, ScoresFilterSchema } from '@resources/scores/schemas'
+import {
+  RegistrationCompletionSchema,
+  RegistrationOptionsSchema,
+  RegistrationRequestSchema,
+} from '@/resources/registrations/schemas'
 
 export class LTIAASLaunch extends BaseLTIAASClient {
   protected readonly serviceAuthorization: string
@@ -158,7 +164,7 @@ export class LTIAASLaunch extends BaseLTIAASClient {
     this.validateSessionType(SessionType.LTIK, SessionType.SERVICE_KEY)
     if (filters !== undefined) validate<ScoresFilter>(ScoresFilterSchema, filters)
     const scoresPath = `/api/lineitems/${encodeURIComponent(lineItemId)}/scores`
-    const data = this.requestHandler.get(this.serviceAuthorization, scoresPath)
+    const data = await this.requestHandler.get(this.serviceAuthorization, scoresPath)
     return validate<ScoreContainer>(ScoreContainerSchema, data)
   }
 
@@ -167,5 +173,20 @@ export class LTIAASLaunch extends BaseLTIAASClient {
     validate<PartialScore>(PartialScoreSchema, score)
     const scoresPath = `/api/lineitems/${encodeURIComponent(lineItemId)}/scores`
     await this.requestHandler.post(this.serviceAuthorization, scoresPath, score)
+  }
+
+  public async getRegistrationRequestById(id: string): Promise<RegistrationRequest> {
+    this.validateSessionType(SessionType.LTIK, SessionType.SERVICE_KEY)
+    const registrationPath = `/api/registrations/${id}`
+    const data = await this.requestHandler.get(this.serviceAuthorization, registrationPath)
+    return validate<RegistrationRequest>(RegistrationRequestSchema, data)
+  }
+
+  public async completeRegistrationRequest(id: string, options: RegistrationOptions): Promise<RegistrationCompletion> {
+    this.validateSessionType(SessionType.LTIK, SessionType.SERVICE_KEY)
+    validate<RegistrationOptions>(RegistrationOptionsSchema, options)
+    const registrationPath = `/api/registrations/${id}/complete`
+    const data = await this.requestHandler.post(this.serviceAuthorization, registrationPath, options)
+    return validate<RegistrationCompletion>(RegistrationCompletionSchema, data)
   }
 }

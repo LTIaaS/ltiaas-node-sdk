@@ -176,17 +176,15 @@ export class LTIAASLaunch extends BaseLTIAASClient {
   }
 
   public async getRegistrationRequestById(id: string): Promise<RegistrationRequest> {
-    this.validateSessionType(SessionType.LTIK, SessionType.SERVICE_KEY)
     const registrationPath = `/api/registrations/${id}`
-    const data = await this.requestHandler.get(this.serviceAuthorization, registrationPath)
+    const data = await this.requestHandler.get(this.bearerAuthorization, registrationPath)
     return validate<RegistrationRequest>(RegistrationRequestSchema, data)
   }
 
   public async completeRegistrationRequest(id: string, options: RegistrationOptions): Promise<RegistrationCompletion> {
-    this.validateSessionType(SessionType.LTIK, SessionType.SERVICE_KEY)
     validate<RegistrationOptions>(RegistrationOptionsSchema, options)
     const registrationPath = `/api/registrations/${id}/complete`
-    const data = await this.requestHandler.post(this.serviceAuthorization, registrationPath, options)
+    const data = await this.requestHandler.post(this.bearerAuthorization, registrationPath, options)
     return validate<RegistrationCompletion>(RegistrationCompletionSchema, data)
   }
 }

@@ -1,8 +1,8 @@
 import type { z } from 'zod'
-import type { ScoreContainerSchema, ScoresFilterSchema, PartialScoreSchema } from '@resources/scores/schemas'
+import type { ScoreSchema, ResultContainerSchema, ResultsFilterSchema } from '@resources/scores/schemas'
 
-export type PartialScore = z.infer<typeof PartialScoreSchema>
+export type Score = z.infer<typeof ScoreSchema>
 
-export type ScoreContainer = z.infer<typeof ScoreContainerSchema>
+export type ResultContainer = z.infer<typeof ResultContainerSchema>
 
-export type ScoresFilter = z.infer<typeof ScoresFilterSchema>
+export type ResultsFilter = z.infer<typeof ResultsFilterSchema>

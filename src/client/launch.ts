@@ -2,7 +2,7 @@ import type { LaunchClientOptions } from '@client/types'
 import type { IdToken, LTIVersionPartial, RawIdToken, RawOauthPayload } from '@resources/idtoken/types'
 import type { MembershipContainer, MembershipsFilter } from '@resources/memberships/types'
 import type { LineItem, LineItemContainer, LineItemsFilter, PartialLineItem } from '@resources/lineitems/types'
-import type { PartialScore, ScoreContainer, ScoresFilter } from '@resources/scores/types'
+import type { ResultContainer, ResultsFilter, Score } from '@resources/scores/types'
 import type { RegistrationRequest, RegistrationOptions, RegistrationCompletion } from '@resources/registrations/types'
 import type { PlatformsFilter, PlatformContainer, Platform, PartialPlatform } from '@resources/platforms/types'
 import type {
@@ -36,7 +36,7 @@ import {
   LineItemsFilterSchema,
   PartialLineItemSchema,
 } from '@resources/lineitems/schemas'
-import { PartialScoreSchema, ScoreContainerSchema, ScoresFilterSchema } from '@resources/scores/schemas'
+import { ResultContainerSchema, ResultsFilterSchema, ScoreSchema } from '@resources/scores/schemas'
 import {
   RegistrationCompletionSchema,
   RegistrationOptionsSchema,
@@ -167,17 +167,17 @@ export class LTIAASLaunch extends BaseLTIAASClient {
     await this.requestHandler.delete(this.serviceAuthorization, lineItemPath)
   }
 
-  public async getScores(lineItemId: string, filters?: ScoresFilter): Promise<ScoreContainer> {
+  public async getScores(lineItemId: string, filters?: ResultsFilter): Promise<ResultContainer> {
     this.validateSessionType(SessionType.LTIK, SessionType.SERVICE_KEY)
-    if (filters !== undefined) validate<ScoresFilter>(ScoresFilterSchema, filters)
+    if (filters !== undefined) validate<ResultsFilter>(ResultsFilterSchema, filters)
     const scoresPath = `/api/lineitems/${encodeURIComponent(lineItemId)}/scores`
     const data = await this.requestHandler.get(this.serviceAuthorization, scoresPath)
-    return validate<ScoreContainer>(ScoreContainerSchema, data)
+    return validate<ResultContainer>(ResultContainerSchema, data)
   }
 
-  public async submitScore(lineItemId: string, score: PartialScore): Promise<void> {
+  public async submitScore(lineItemId: string, score: Score): Promise<void> {
     this.validateSessionType(SessionType.LTIK, SessionType.SERVICE_KEY)
-    validate<PartialScore>(PartialScoreSchema, score)
+    validate<Score>(ScoreSchema, score)
     const scoresPath = `/api/lineitems/${encodeURIComponent(lineItemId)}/scores`
     await this.requestHandler.post(this.serviceAuthorization, scoresPath, score)
   }

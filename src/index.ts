@@ -4,6 +4,7 @@ export * from '@client/launch'
 export * from '@resources/idtoken/enums'
 export * from '@resources/deepLinking/enums'
 export * from '@resources/memberships/enums'
+export * from '@resources/scores/enums'
 export * from '@resources/platforms/enums'
 
 export type * from '@client/types'

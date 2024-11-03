@@ -1,7 +1,9 @@
 import { z } from 'zod'
+import { ActivityProgress, GradingProgress } from '@resources/scores/enums'
 
-export const PartialScoreSchema = z
+export const ResultSchema = z
   .object({
+    id: z.string(),
     userId: z.string(),
     scoreOf: z.string(),
     timestamp: z.string().datetime({ offset: true }),
@@ -11,19 +13,29 @@ export const PartialScoreSchema = z
   })
   .passthrough()
 
-export const ScoreSchema = PartialScoreSchema.extend({
-  id: z.string(),
-})
+export const ScoreSchema = z
+  .object({
+    userId: z.string().or(z.number()),
+    activityProgress: z.nativeEnum(ActivityProgress),
+    gradingProgress: z.nativeEnum(GradingProgress),
+    scoreGiven: z.number().positive().optional(),
+    scoreMaximum: z.number().positive().optional(),
+    comment: z.string().optional(),
+  })
+  .passthrough()
+  .refine(data => {
+    return !(data.scoreGiven !== undefined && data.scoreMaximum === undefined)
+  }, 'The scoreMaximum must be defined if scoreGiven is defined')
 
-export const ScoreContainerSchema = z.object({
-  scores: z.array(ScoreSchema),
+export const ResultContainerSchema = z.object({
+  scores: z.array(ResultSchema),
   next: z.string().optional(),
   first: z.string().optional(),
   last: z.string().optional(),
   prev: z.string().optional(),
 })
 
-export const ScoresFilterSchema = z.object({
+export const ResultsFilterSchema = z.object({
   userId: z.string().optional(),
   limit: z.number().optional(),
   url: z.string().url().optional(),

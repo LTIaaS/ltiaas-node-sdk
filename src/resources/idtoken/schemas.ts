@@ -7,31 +7,36 @@ export const LTIVersionPartialSchema = z.object({
 
 export const IdTokenSchema = LTIVersionPartialSchema.extend({
   ltiVersion: z.string(),
-  user: z.object({
-    id: z.string(),
-    roles: z.array(z.string()),
-    name: z.string().optional(),
-    email: z.string().optional(),
-    givenName: z.string().optional(),
-    familyName: z.string().optional(),
-    roleScopeMentor: z.array(z.string()).optional(),
-  }),
-  platform: z.object({
-    id: z.string(),
-    url: z.string(),
-    clientId: z.string(),
-    deploymentId: z.string(),
-    name: z.string(),
-    description: z.string().optional(),
-    guid: z.string().optional(),
-    contactEmail: z.string().optional(),
-    version: z.string().optional(),
-    productFamilyCode: z.string().optional(),
-    lis: z.record(z.string(), z.string().or(z.number())).optional(),
-  }),
+  user: z
+    .object({
+      id: z.string(),
+      roles: z.array(z.string()),
+      name: z.string().optional(),
+      email: z.string().optional(),
+      givenName: z.string().optional(),
+      familyName: z.string().optional(),
+      roleScopeMentor: z.array(z.string()).optional(),
+    })
+    .passthrough(),
+  platform: z
+    .object({
+      id: z.string().optional(),
+      url: z.string().optional(),
+      clientId: z.string().optional(),
+      deploymentId: z.string().optional(),
+      name: z.string().optional(),
+      description: z.string().optional(),
+      guid: z.string().optional(),
+      contactEmail: z.string().optional(),
+      version: z.string().optional(),
+      productFamilyCode: z.string().optional(),
+      lis: z.record(z.string(), z.string().or(z.number())).optional(),
+      consumerKey: z.string().optional(),
+    })
+    .passthrough(),
   launch: z.object({
     type: z.nativeEnum(LTILaunchType),
-    target: z.string(),
+    target: z.string().optional(),
     context: z
       .object({
         id: z.string(),
@@ -39,6 +44,7 @@ export const IdTokenSchema = LTIVersionPartialSchema.extend({
         label: z.string().optional(),
         title: z.string().optional(),
       })
+      .passthrough()
       .optional(),
     resourceLink: z
       .object({
@@ -46,6 +52,7 @@ export const IdTokenSchema = LTIVersionPartialSchema.extend({
         title: z.string().optional(),
         description: z.string().optional(),
       })
+      .passthrough()
       .optional(),
     custom: z.record(z.string(), z.string().or(z.number())).optional(),
     presentation: z
@@ -56,6 +63,7 @@ export const IdTokenSchema = LTIVersionPartialSchema.extend({
         returnUrl: z.string().optional(),
         locale: z.string().optional(),
       })
+      .passthrough()
       .optional(),
   }),
   services: z.object({
@@ -104,12 +112,14 @@ export const RawIdTokenSchema = LTIVersionPartialSchema.extend({
   'https://purl.imsglobal.org/spec/lti/claim/tool_platform': z
     .object({
       guid: z.string().optional(),
+      name: z.string().optional(),
       description: z.string().optional(),
       contactEmail: z.string().optional(),
       version: z.string().optional(),
       product_family_code: z.string().optional(),
       lis: z.array(z.string()).optional(),
     })
+    .passthrough()
     .optional(),
   'https://purl.imsglobal.org/spec/lti/claim/context': z
     .object({
@@ -118,6 +128,7 @@ export const RawIdTokenSchema = LTIVersionPartialSchema.extend({
       label: z.string().optional(),
       title: z.string().optional(),
     })
+    .passthrough()
     .optional(),
   'https://purl.imsglobal.org/spec/lti/claim/resource_link': z
     .object({
@@ -125,6 +136,7 @@ export const RawIdTokenSchema = LTIVersionPartialSchema.extend({
       title: z.string().optional(),
       description: z.string().optional(),
     })
+    .passthrough()
     .optional(),
   'https://purl.imsglobal.org/spec/lti/claim/launch_presentation': z
     .object({
@@ -134,6 +146,7 @@ export const RawIdTokenSchema = LTIVersionPartialSchema.extend({
       return_url: z.string().optional(),
       locale: z.string().optional(),
     })
+    .passthrough()
     .optional(),
   'https://purl.imsglobal.org/spec/lti/claim/role_scope_mentor': z.array(z.string()).optional(),
   'https://purl.imsglobal.org/spec/lti/claim/custom': z.record(z.string(), z.string().or(z.number())).optional(),

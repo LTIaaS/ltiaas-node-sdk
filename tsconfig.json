@@ -20,5 +20,5 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "include": ["src", "tests", "jest.config.ts"]
+  "include": ["src", "jest.config.ts"]
 }

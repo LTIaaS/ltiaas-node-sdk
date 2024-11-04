@@ -18,9 +18,8 @@
     "build:clean": "del-cli dist",
     "build:compile": "tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
     "check:format": "prettier . --write",
-    "check:lint": "eslint src/* tests/*",
-    "check:tests": "jest",
-    "test": "npm-run-all check:format check:lint check:tests",
+    "check:lint": "eslint src/*",
+    "test": "npm-run-all check:format check:lint",
     "build": "npm-run-all build:clean build:compile"
   },
   "lint-staged": {

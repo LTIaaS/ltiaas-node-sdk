@@ -9,7 +9,7 @@ export const RegistrationRequestSchema = z.object({
   supportedMessages: z.array(
     z.object({
       type: z.nativeEnum(LTILaunchType),
-      placements: z.array(z.string()),
+      placements: z.array(z.string()).optional(),
     }),
   ),
 })

@@ -7,6 +7,10 @@ export * from '@resources/memberships/enums'
 export * from '@resources/scores/enums'
 export * from '@resources/platforms/enums'
 
+export * from '@exceptions/apiError'
+export * from '@exceptions/invalidSessionError'
+export * from '@exceptions/validationError'
+
 export type * from '@client/types'
 export type * from '@resources/idtoken/types'
 export type * from '@resources/deepLinking/types'

@@ -3,7 +3,12 @@ import type { IdToken, LTIVersionPartial, RawIdToken, RawOauthPayload } from '@r
 import type { MembershipContainer, MembershipsFilter } from '@resources/memberships/types'
 import type { LineItem, LineItemContainer, LineItemsFilter, PartialLineItem } from '@resources/lineitems/types'
 import type { ResultContainer, ResultsFilter, Score } from '@resources/scores/types'
-import type { RegistrationRequest, RegistrationOptions, RegistrationCompletion } from '@resources/registrations/types'
+import type {
+  RegistrationRequest,
+  RegistrationOptions,
+  RegistrationCompletion,
+  RawRegistrationRequest,
+} from '@resources/registrations/types'
 import type { PlatformsFilter, PlatformContainer, Platform, PartialPlatform } from '@resources/platforms/types'
 import type {
   ContentItem,
@@ -38,6 +43,7 @@ import {
 } from '@resources/lineitems/schemas'
 import { ResultContainerSchema, ResultsFilterSchema, ScoreSchema } from '@resources/scores/schemas'
 import {
+  RawRegistrationRequestSchema,
   RegistrationCompletionSchema,
   RegistrationOptionsSchema,
   RegistrationRequestSchema,
@@ -186,6 +192,12 @@ export class LTIAASLaunch extends BaseLTIAASClient {
     const registrationPath = `/api/registrations/${id}`
     const data = await this.requestHandler.get(this.bearerAuthorization, registrationPath)
     return validate<RegistrationRequest>(RegistrationRequestSchema, data)
+  }
+
+  public async getRawRegistrationRequest(id: string): Promise<RawRegistrationRequest> {
+    const registrationPath = `/api/registrations/${id}`
+    const data = await this.requestHandler.get(this.bearerAuthorization, registrationPath, { raw: true })
+    return validate<RawRegistrationRequest>(RawRegistrationRequestSchema, data)
   }
 
   public async completeRegistrationRequest(id: string, options: RegistrationOptions): Promise<RegistrationCompletion> {

@@ -30,7 +30,7 @@ export const IdTokenSchema = LTIVersionPartialSchema.extend({
       contactEmail: z.string().optional(),
       version: z.string().optional(),
       productFamilyCode: z.string().optional(),
-      lis: z.record(z.string(), z.string().or(z.number())).optional(),
+      lis: z.record(z.string(), z.unknown()).optional(),
       consumerKey: z.string().optional(),
     })
     .passthrough(),

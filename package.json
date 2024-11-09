@@ -1,6 +1,6 @@
 {
   "name": "ltiaas",
-  "version": "1.0.0-beta.9",
+  "version": "1.0.0-beta.10",
   "description": "The official LTIAAS client library.",
   "main": "dist/index.js",
   "exports": {

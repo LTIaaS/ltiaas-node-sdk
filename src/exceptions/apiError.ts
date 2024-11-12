@@ -21,7 +21,7 @@ export class APIError extends Error {
 
   constructor(error: AxiosError) {
     if (error.response === undefined) {
-      super('An unexpected error occurred')
+      super(`An unexpected error occurred: ${error.message}`)
       return
     }
 
@@ -32,7 +32,7 @@ export class APIError extends Error {
       return
     }
 
-    super('An unexpected error occurred')
+    super('An unexpected API error occurred')
     this.response = {
       status: error.response.status,
       error: error.response.statusText,

@@ -68,3 +68,4 @@ src/
 docs/
 test/
 *.lcov
+.vscode

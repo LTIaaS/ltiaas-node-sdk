@@ -11,7 +11,7 @@ export const MembershipSchema = z
     familyName: z.string().optional(),
     middleName: z.string().optional(),
     picture: z.string().optional(),
-    lisPersonSourcedid: z.string().optional(),
+    lisPersonSourcedId: z.string().optional(),
     lti11LegacyUserId: z.string().optional(),
   })
   .passthrough()

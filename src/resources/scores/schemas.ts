@@ -38,5 +38,9 @@ export const ResultContainerSchema = z.object({
 export const ResultsFilterSchema = z.object({
   userId: z.string().optional(),
   limit: z.number().optional(),
-  url: z.string().url().optional(),
+  url: z
+    .string()
+    .url()
+    .optional()
+    .transform(v => (v === undefined ? v : encodeURIComponent(v))),
 })

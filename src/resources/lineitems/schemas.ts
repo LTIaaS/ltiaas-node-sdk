@@ -30,5 +30,9 @@ export const LineItemsFilterSchema = z.object({
   resourceId: z.string().optional(),
   tag: z.string().optional(),
   limit: z.number().optional(),
-  url: z.string().url().optional(),
+  url: z
+    .string()
+    .url()
+    .optional()
+    .transform(v => (v === undefined ? v : encodeURIComponent(v))),
 })

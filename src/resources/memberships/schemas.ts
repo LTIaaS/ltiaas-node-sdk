@@ -28,7 +28,14 @@ export const MembershipContainerSchema = z.object({
 })
 
 export const MembershipsFilterSchema = z.object({
-  role: z.string().optional(),
+  role: z
+    .string()
+    .optional()
+    .transform(v => (v === undefined ? v : encodeURIComponent(v))),
+  url: z
+    .string()
+    .url()
+    .optional()
+    .transform(v => (v === undefined ? v : encodeURIComponent(v))),
   limit: z.number().optional(),
-  url: z.string().url().optional(),
 })

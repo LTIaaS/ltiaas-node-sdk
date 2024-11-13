@@ -68,4 +68,6 @@ src/
 docs/
 test/
 *.lcov
-.vscode
+.vscode/
+assets/
+.husky/

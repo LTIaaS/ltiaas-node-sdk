@@ -54,7 +54,7 @@ export const IdTokenSchema = LTIVersionPartialSchema.extend({
       })
       .passthrough()
       .optional(),
-    custom: z.record(z.string(), z.string().or(z.number())).optional(),
+    custom: z.record(z.string(), z.unknown()).optional(),
     presentation: z
       .object({
         documentTarget: z.string().optional(),
@@ -149,8 +149,8 @@ export const RawIdTokenSchema = LTIVersionPartialSchema.extend({
     .passthrough()
     .optional(),
   'https://purl.imsglobal.org/spec/lti/claim/role_scope_mentor': z.array(z.string()).optional(),
-  'https://purl.imsglobal.org/spec/lti/claim/custom': z.record(z.string(), z.string().or(z.number())).optional(),
-  'https://purl.imsglobal.org/spec/lti/claim/lis': z.record(z.string(), z.string().or(z.number())).optional(),
+  'https://purl.imsglobal.org/spec/lti/claim/custom': z.record(z.string(), z.unknown()).optional(),
+  'https://purl.imsglobal.org/spec/lti/claim/lis': z.record(z.string(), z.unknown()).optional(),
 }).passthrough()
 
 export const RawOauthPayloadSchema = LTIVersionPartialSchema.extend({

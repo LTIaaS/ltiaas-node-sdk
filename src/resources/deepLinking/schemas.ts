@@ -47,7 +47,7 @@ const LTIResourceLinkContentItemSchema = z
         windowFeatures: z.string().optional(),
       })
       .optional(),
-    custom: z.record(z.string(), z.string().or(z.number())).optional(),
+    custom: z.record(z.string(), z.unknown()).optional(),
   })
   .passthrough()
 

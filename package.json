@@ -20,7 +20,8 @@
     "check:format": "prettier . --write",
     "check:lint": "eslint src/*",
     "test": "npm-run-all check:format check:lint",
-    "build": "npm-run-all build:clean build:compile"
+    "build": "npm-run-all build:clean build:compile",
+    "deploy": "npm-run-all test build && npm publish"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"

@@ -88,6 +88,7 @@ export const IdTokenSchema = LTIVersionPartialSchema.extend({
       available: z.boolean(),
     }),
     serviceKey: z.string().optional(),
+    legacyServiceKey: z.string().optional(),
   }),
 })
 

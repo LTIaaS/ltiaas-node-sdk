@@ -19,7 +19,6 @@ export const ScoreSchema = z
     gradingProgress: z.nativeEnum(GradingProgress),
     scoreGiven: z.number().positive().optional(),
     scoreMaximum: z.number().positive().optional(),
-    timestamp: z.string().datetime({ offset: true }),
     comment: z.string().optional(),
   })
   .passthrough()

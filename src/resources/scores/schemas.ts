@@ -6,7 +6,6 @@ export const ResultSchema = z
     id: z.string(),
     userId: z.string(),
     scoreOf: z.string(),
-    timestamp: z.string().datetime({ offset: true }),
     resultScore: z.number().optional(),
     resultMaximum: z.number().optional(),
     comment: z.string().optional(),
@@ -20,6 +19,7 @@ export const ScoreSchema = z
     gradingProgress: z.nativeEnum(GradingProgress),
     scoreGiven: z.number().positive().optional(),
     scoreMaximum: z.number().positive().optional(),
+    timestamp: z.string().datetime({ offset: true }),
     comment: z.string().optional(),
   })
   .passthrough()

@@ -9,7 +9,7 @@ export const IdTokenSchema = LTIVersionPartialSchema.extend({
   ltiVersion: z.string(),
   user: z
     .object({
-      id: z.string(),
+      id: z.coerce.string(),
       roles: z.array(z.string()),
       name: z.string().optional(),
       email: z.string().optional(),

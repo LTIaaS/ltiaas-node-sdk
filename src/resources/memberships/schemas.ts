@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 export const MembershipSchema = z
   .object({
-    userId: z.string(),
+    userId: z.coerce.string(),
     roles: z.array(z.string()),
     status: z.string().optional(),
     email: z.string().optional(),

@@ -4,7 +4,7 @@ import { ActivityProgress, GradingProgress } from '@resources/scores/enums'
 export const ResultSchema = z
   .object({
     id: z.string(),
-    userId: z.string(),
+    userId: z.coerce.string(),
     scoreOf: z.string(),
     resultScore: z.number().optional(),
     resultMaximum: z.number().optional(),
@@ -14,7 +14,7 @@ export const ResultSchema = z
 
 export const ScoreSchema = z
   .object({
-    userId: z.string().or(z.number()),
+    userId: z.coerce.string(),
     activityProgress: z.nativeEnum(ActivityProgress),
     gradingProgress: z.nativeEnum(GradingProgress),
     scoreGiven: z.number().positive().optional(),

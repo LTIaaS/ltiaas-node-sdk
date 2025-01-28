@@ -21,3 +21,5 @@ export type * from '@resources/registrations/types'
 export type * from '@resources/platforms/types'
 
 export default LTIAASLaunch
+
+//  TODO: Test conversion and creation of every field, specially coerced values

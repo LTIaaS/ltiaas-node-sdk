@@ -6,8 +6,10 @@ const LTIAASErrorResponse = z.object({
   error: z.string(),
   details: z
     .object({
+      code: z.string().optional(),
       message: z.string().optional(),
       bodyReceived: z.unknown().optional(),
+      bodySent: z.unknown().optional(),
       externalError: z.boolean().optional(),
       externalUrl: z.string().optional(),
     })
